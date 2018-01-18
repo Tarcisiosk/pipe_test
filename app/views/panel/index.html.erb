@@ -1,20 +1,51 @@
-<h2>Holy is this a jojo reference???</h2>
-<%= button_to "Fetch new data", action: "fetch_data", class: 'btn btn-default' %>
+<div class="container">
+  <h2><%=@organization&.name%></h2>
+  <%= button_to "Fetch new data", { action: "fetch_data" }, { class: 'btn btn-primary pull-right' } %>
+  <h3><%= @pipe&.name %></h3>
+</div>
+<% if @organization.present? && @pipe.present? %>
+  <div class="container">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th colspan="3"><%= I18n.t('table.title')%></th>
+          <th colspan="3"><%= I18n.t('table.created_at')%></th>
+          <th colspan="3"><%= I18n.t('table.current_phase')%></th>
+          <th colspan="3"><%= I18n.t('table.due_date')%></th>
+          <th colspan="3"><%= @pipe.fields.first.name %></th>
+          <!-- this is if we want all the fields
+          <% @pipe.fields.each do |field| %>
+            <th><%= field.name %></th>
+          <%end%> -->  
+        </tr>
+      </thead>
+      <tbody>
+        <%if @pipe.cards.exists? %>
+          <% @pipe.cards.each do |card| %>
+            <tr>
+              <td colspan="3"><%= card.title %></td>
+              <td colspan="3"><%= card.creation_date %></td>
+              <td colspan="3"><%= card.phase&.name %></td>
+              <td colspan="3"><%= card.due_date %></td>
+              <th colspan="3"><%= card.fields.first.value %></th>
+              <!-- this is if we want all the fields
+              <% @pipe.fields.each do |field| %>
+                <th><%= field.value %></th>
+              <%end%> -->
+            </tr>
+          <%end%>
+        <%end%>
+      </tbody>
+    </table>
+  </div>
+<%else%>
+  <div class="container">
+    <h1><%= I18n.t('.no_data')%></h2>
+  </div>
+<%end%>
 
-<h3>Back-end Test</h3>
-
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th colspan="3">Title</th>
-      <th colspan="3">Created At</th>
-      <th colspan="3">Current Phase</th>
-      <th colspan="3">Due Date</th>
-      <th colspan="3">Whats the Bug</th>
-    </tr>
-  </thead>
-  <tbody>
-      <tr>
-      </tr>
-  </tbody>
-</table>
+<div class="container">
+  <% flash.each do |key, value| %>
+    <div class="alert alert-<%= key %>"><%= value %></div>
+  <% end %>
+</div>
