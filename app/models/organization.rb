@@ -11,4 +11,8 @@ class Organization < ApplicationRecord
     organization.save
     Pipe.handle_api_data(data.dig('pipes'), organization)
   end
+
+  def self.org_test
+    self.find_by_id(ID_TEST) || nil
+  end
 end 

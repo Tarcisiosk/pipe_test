@@ -2,6 +2,8 @@ class Pipe < ApplicationRecord
   ID_TEST = 335557
   belongs_to :organization, class_name: 'Organization'
   has_many :phases, class_name: 'Phase', dependent: :destroy
+  has_many :cards, through: :phases
+  has_many :fields, through: :cards
 
   validates_presence_of :name
 
@@ -15,4 +17,8 @@ class Pipe < ApplicationRecord
       Phase.handle_api_data(pipe_data.dig('phases'), pipe)
     end
   end
-end 
+
+  def self.pipe_test
+    self.find_by_id(ID_TEST) || nil
+  end
+end
