@@ -24,9 +24,9 @@
           <% @pipe.cards.each do |card| %>
             <tr>
               <td colspan="3"><%= card.title %></td>
-              <td colspan="3"><%= card.creation_date %></td>
+              <td colspan="3"><%= card.creation_date&.strftime("%D - %T") %></td>
               <td colspan="3"><%= card.phase&.name %></td>
-              <td colspan="3"><%= card.due_date %></td>
+              <td colspan="3"><%= card.due_date&.strftime("%D - %T") %></td>
               <td colspan="3"><%= card.fields.first.value %></td>
               <!-- this is if we want all the fields
               <% @pipe.fields.each do |field| %>
